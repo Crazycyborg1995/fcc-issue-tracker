@@ -13,6 +13,7 @@ var port = process.env.PORT || 3000;
 var app = express();
 var helmet = require('helmet');
 const session = require('express-session');
+const Issue = require('./models/Issues');
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
@@ -44,9 +45,19 @@ app.route('/').get(function(req, res) {
   res.render('index');
 });
 
-app.route('/project/').get(function(req, res) {
+app.route('/project/').get(async function(req, res) {
+  let issues = await Issue.find()
+    .then(issues => {
+      if (issues.length > 0) {
+        return issues;
+      }
+      return false;
+    })
+    .catch(err => null);
+
+  console.log('issues', issues);
   res.render('issues', {
-    users: req.session.users || ''
+    issues: issues
   });
 });
 

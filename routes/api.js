@@ -29,20 +29,6 @@ mongoose
 module.exports = function(app) {
   app
     .route('/api/issues/:project')
-
-    .get(function(req, res) {
-      let query = req.query;
-      Issue.find(query)
-        .then(users => {
-          if (users.length > 0) {
-            req.session.users = users;
-          }
-
-          return res.redirect('/project');
-        })
-        .catch(err => res.status(404).json({ msg: 'Failed To Fetch' }));
-    })
-
     .post(function(req, res) {
       let { title, text, creator, assigned, status } = req.body;
       let newIssue = new Issue({
