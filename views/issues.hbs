@@ -1,0 +1,17 @@
+<div class="container">
+  {{#if users}}
+  {{#each users}}
+  <div class="card border-info mb-3">
+    <div class="card-header text-center">{{this.title}}</div>
+    <div class="card-body">
+      <h4 class="card-title">ID : {{this._id}}</h4>
+      <p class="card-text">{{this.text}}
+      </p>
+      <span class="text-muted">Created By : {{this.creator}}</span>
+    </div>
+  </div>
+  {{/each}}
+  {{else}}
+  <h2 class="text-center">No User Found</h2>
+  {{/if}}
+</div>
