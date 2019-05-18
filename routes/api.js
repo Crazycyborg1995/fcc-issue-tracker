@@ -56,6 +56,7 @@ module.exports = function(app) {
           // noFieldSent = false;
         }
       });
+
       update.$set.updated_on = new Date();
       Issue.findOneAndUpdate({ _id: id }, update, { new: true })
         .then(user => {
@@ -80,4 +81,22 @@ module.exports = function(app) {
         })
         .catch(err => res.status(404).json({ msg: 'Invalid ID' }));
     });
+
+  app.route('/api/issues').get(async function(req, res) {
+    let { title } = req.query;
+
+    let issue = await Issue.findOne({ title: title })
+      .then(issue => {
+        if (issue) {
+          return issue;
+        }
+        return false;
+      })
+      .catch(err => null);
+
+    if (issue) {
+      return res.status(200).json(issue);
+    }
+    res.status(200).json({ error: 'No such titles exist' });
+  });
 };

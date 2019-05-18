@@ -1,4 +1,5 @@
 let url = window.location.href + 'api/issues/:project';
+let closeBtn = document.querySelector('.close');
 
 function variables() {
   let id = document.querySelector('#id').value;
@@ -9,7 +10,19 @@ function variables() {
   let assigned = document.querySelector('#assigned').value || '';
   let status = document.querySelector('#status').value || '';
   let open = document.querySelector("input[type='checkbox']").checked;
+  console.log('title', document.querySelector('#title').value);
   return { id, id2, title, text, creator, assigned, status, open };
+}
+
+function variables2() {
+  let id = document.querySelector('#id').value;
+  let title = document.querySelector('#title2').value;
+  let text = document.querySelector('#text2').value || '';
+  let creator = document.querySelector('#creator2').value || '';
+  let assigned = document.querySelector('#assigned2').value || '';
+  let status = document.querySelector('#status2').value || '';
+  let open = document.querySelector("input[type='checkbox']").checked;
+  return { id, title, text, creator, assigned, status, open };
 }
 
 // Open modal
@@ -30,9 +43,10 @@ function openModal(data) {
 }
 
 // Close modal
-document.querySelector('.close').addEventListener('click', () => {
-  document.querySelector('.myModal').classList.remove('open');
-});
+if (closeBtn)
+  closeBtn.addEventListener('click', () => {
+    document.querySelector('.myModal').classList.remove('open');
+  });
 
 // clear all fields
 function clearFix() {
@@ -76,7 +90,7 @@ document.querySelector('#post').addEventListener('submit', e => {
 // UPDATE request
 document.querySelector('#update').addEventListener('submit', e => {
   e.preventDefault();
-  let { id, title, text, creator, assigned, status, open } = variables();
+  let { id, title, text, creator, assigned, status, open } = variables2();
   if (!id) {
     alert('please give an id');
   }
@@ -90,6 +104,8 @@ document.querySelector('#update').addEventListener('submit', e => {
     open
   };
   clearFix();
+
+  console.log('title', title);
   fetch(url, {
     method: 'PUT',
     body: JSON.stringify(data),

@@ -55,7 +55,6 @@ app.route('/project/').get(async function(req, res) {
     })
     .catch(err => null);
 
-  console.log('issues', issues);
   res.render('issues', {
     issues: issues
   });
